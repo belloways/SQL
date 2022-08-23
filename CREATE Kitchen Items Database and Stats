@@ -1,0 +1,39 @@
+--Create database with items found in a kitchen
+
+CREATE TABLE kitchen_items (
+id INTEGER PRIMARY KEY,
+item TEXT,
+category TEXT,
+price NUMERIC,
+quantity INTEGER);
+
+INSERT INTO kitchen_items VALUES
+(1, "toaster", "appliance", 19.99, 20),
+(2, "coffee maker", "appliance", 49.99, 10),
+(3, "spatula", "kitchen_tools", 6.99, 50),
+(4, "fork", "utensils", 1.99, 100),
+(5, "grill", "appliance", 39.99, 20),
+(6, "spoon", "utensils", 1.99, 100),
+(7, "knife", "utensils", 1.99, 100),
+(8, "chefs_knife", "kitchen_tools", 24.99, 50),
+(9, "blender", "appliance", 79.99, 20),
+(10, "scissors", "kitchen_tools", 15.99, 50),
+(11, "ice_scream_scoop", "kitchen_tools", 9.99, 100),
+(12, "measuring_cups", "kitchen_tools", 19.99, 25),
+(13, "can_opener", "kitchen_tools", 14.99, 50),
+(14, "ice_cream_maker", "appliance", 89.99, 20),
+(15, "cutting_board", "kitchen_tools", 16.99, 100)
+;
+
+--Display data ordered by price
+
+SELECT * FROM kitchen_items ORDER BY price;
+
+--Which items are priced $19.99 or greater?
+
+SELECT * FROM kitchen_items WHERE price >= 19.99;
+
+-- What is the total price value for appliances?
+
+SELECT SUM(quantity) FROM kitchen_items
+WHERE category = "appliance";
