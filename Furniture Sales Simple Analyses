@@ -119,7 +119,7 @@ SELECT * FROM sales
 ORDER BY price DESC
 LIMIT 10;
 
---What is total furniture sales count? 100 transactions--
+--What is total furniture transactions in database? 100 transactions--
 SELECT COUNT(*) FROM sales;
 
 --What is maximum furniture price? $7,500--
@@ -131,9 +131,16 @@ SELECT MIN(price) FROM sales;
 --What is average sale price? $1,740--
 SELECT AVG(price) FROM sales;
 
---How much furniture was sold above average price? Only 16 out of 100 transactions were sold above the $1,740 average sale price--
-SELECT COUNT(*) AS Sales_Above_Average FROM sales
-WHERE price> (SELECT AVG(price) FROM sales);
+--How much furniture was sold above/below average price? Only 16 out of 100 transactions were sold above the $1,740 average sale price--
+
+SELECT COUNT(*),
+CASE
+WHEN price>(SELECT AVG(price) FROM sales) THEN "Above Average Sales Price"
+WHEN price<(SELECT AVG(price) FROM sales) THEN "Below Average Sales Price"
+ELSE "Average Price"
+END AS "Above/Below_Average_Price"
+FROM sales
+GROUP BY "Above/Below_Average_Price";
 
 --How much was sold per country? USA, Canada, and UK were top 3 in terms of total sales--
 SELECT country,SUM(price) AS total_sales
@@ -146,8 +153,20 @@ SELECT product, SUM(price) AS total_sales
 FROM sales
 GROUP BY product;
 
+--Which product type has a total sales greater than $50,000? Chair--
+SELECT product, SUM(price) AS total_sales
+FROM sales
+GROUP BY product
+HAVING SUM(price)>50000;
+
 --To offer a promotion to the first 10 customers that created an account and had a transaction, identify the customer names---
 SELECT name, account_created
 FROM sales
 ORDER BY account_Created DESC
 LIMIT 10;
+
+--How many couches were sold either above average sales price or within the US? 54 couches--
+SELECT COUNT(*) FROM sales
+WHERE product = "Couch"
+AND price>(SELECT AVG(price) FROM sales)
+OR country = "United states";
