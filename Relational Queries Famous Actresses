@@ -1,0 +1,65 @@
+-- Create tables about famous people and associated facts --
+
+CREATE TABLE famous_actresses (
+actress_id INTEGER PRIMARY KEY AUTOINCREMENT,
+full_name TEXT UNIQUE NOT NULL,
+birthplace TEXT NOT NULL);
+
+INSERT INTO famous_actresses
+(full_name, birthplace)
+VALUES 
+('Scarlett Johanson', 'Manhattan, NY'),
+('Jennifer Lawrence', 'Indian Hills, KY'),
+('Anne Hathaway', 'Brooklyn, NY'),
+('Emma Watson', 'Paris, France'),
+('Sandra Bullock', 'Arlington County, VA');
+
+SELECT * FROM famous_actresses;
+
+CREATE TABLE net_worth (
+id INTEGER REFERENCES famous_actresses(actress_id),
+net_worth NUMERIC NOT NULL);
+
+INSERT INTO net_worth
+(id, net_worth)
+VALUES
+(1,'$165,000,000'),
+(2,'$160,000,000'),
+(3,'$80,000,000'),
+(4,'$85,000,000'),
+(5,'$250,000,000');
+
+SELECT * FROM net_worth;
+
+CREATE TABLE movies (
+id INTEGER REFERENCES famous_actresses(actress_id),
+movie TEXT NOT NULL);
+
+INSERT INTO movies
+(id, movie)
+VALUES
+(1, 'Black Widow'),
+(2, 'Hunger Games'),
+(3, 'The Devil Wears Prada'),
+(4, 'Harry Potter'),
+(5, 'Practical Magic'),
+(1, 'Avengers'),
+(2, 'DONT LOOK UP'),
+(3, 'Hustle'),
+(4, 'The Circle'),
+(5, 'Speed');
+
+SELECT * FROM movies;
+
+--JOIN tables to see actresses and their net worth--
+
+SELECT full_name, net_worth FROM famous_actresses
+JOIN net_worth
+ON famous_actresses.actress_id= net_worth.id;
+
+--List all the movies Sandra Bullock has been in.--
+
+SELECT full_name, movie FROM movies
+JOIN famous_actresses
+ON famous_actresses.actress_id= movies.id
+WHERE full_name = 'Sandra Bullock';
