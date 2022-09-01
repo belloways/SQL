@@ -59,4 +59,10 @@ FROM BIT_DB.JanSales
 WHERE location LIKE '%NY%'
 HAVING COUNT(orderid)>=3;
 
+--How many of each type of headphone were sold in February?--Result: Airpods (1,013 units), Bose (844 units), Wired (1,282 units).--
+SELECT Product, SUM(Quantity) AS Units_Sold
+FROM BIT_DB.FebSales
+WHERE Product LIKE '%Headphones%'
+GROUP BY Product;
+
 
