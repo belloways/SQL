@@ -77,3 +77,9 @@ FROM BIT_DB.FebSales FebSales
 LEFT JOIN BIT_DB.customers
 ON FebSales.orderID = customers.order_id;
 
+--Which product brought in the most revenue in January and how much revenue did it bring in total?--Result: Macbook Pro Laptop at $399,500 total revenue in January.--
+SELECT Product, SUM(Quantity*price)
+FROM BIT_DB.JanSales
+GROUP BY Product
+ORDER BY SUM(Quantity*price) DESC
+LIMIT 1;
