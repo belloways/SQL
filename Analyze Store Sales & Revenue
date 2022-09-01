@@ -65,4 +65,10 @@ FROM BIT_DB.FebSales
 WHERE Product LIKE '%Headphones%'
 GROUP BY Product;
 
+--What was the average amount spent per total accounts in February?--Result: $181 spent on average per total accounts--
+SELECT SUM(Quantity*price)/ COUNT(acctnum)
+FROM BIT_DB.FebSales
+LEFT JOIN BIT_DB.customers customers
+ON customers.order_id = FebSales.orderID;
+
 
