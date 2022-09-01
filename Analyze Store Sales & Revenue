@@ -1,0 +1,43 @@
+-- How many orders were placed in January?--Result: 9,723 orders placed in January---
+
+SELECT COUNT (*)
+FROM BIT_DB.JanSales;
+
+
+--How many of those orders were for an iPhone?--Result: 379 orders in January were for an iPhone---
+
+SELECT COUNT (*)
+FROM BIT_DB.JanSales
+WHERE Product = 'iPhone';
+
+--Select the customer account numbers for all orders placed in February--
+
+SELECT accnum
+FROM BIT_DB.customers customers
+JOIN BIT_DB.FebSales FebSales
+ON customers.order_id = FebSales.orderid;
+
+--Which product was the cheapest in January, and what was the price?--Result: AAA Batteries at $2.99 each pack---
+
+SELECT DISTINCT product, price
+FROM BIT_DB.JanSales
+WHERE price IN 
+(SELECT MIN (price) FROM BIT_DB.JanSales);
+
+--What is the total revenue for each product sold in January?--
+
+SELECT Product, SUM(quantity)*price AS revenue
+FROM BIT_DB.JanSales
+GROUP BY product;
+
+--Which products were sold in Feb at 549 Lincoln Seattle, WA 98101, how many of each were sold, and what was the total revenue?--Result: AA Batteries, 2 total units sold, $7.68 total revenue.--
+
+SELECT Product,
+SUM (Quantity) AS total_sold,
+SUM (Quantity)*price AS revenue,
+location
+FROM BIT_DB.FebSales
+GROUP BY Product;
+
+--How many customers ordered more than 2 products at a time in Feb, and what was the AVD amount spent for those customers?
+
