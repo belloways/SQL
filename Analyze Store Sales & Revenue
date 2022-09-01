@@ -53,4 +53,10 @@ SELECT Product, SUM(Quantity), location
 FROM BIT_DB.FebSales
 WHERE location LIKE '%Los_Angeles%';
 
+--Which locations in New York receivesd at least 3 orders in January, and how many orders did they each receive?--Result: 937 Highland St which received 1,303 orders.--
+SELECT DISTINCT location, COUNT(orderid)
+FROM BIT_DB.JanSales
+WHERE location LIKE '%NY%'
+HAVING COUNT(orderid)>=3;
+
 
