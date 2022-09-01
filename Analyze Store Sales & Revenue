@@ -48,3 +48,9 @@ LEFT JOIN BIT_DB.customers customers
 ON FebSales.orderid = customers.order_id
 WHERE FebSales.Quantity>2;
 
+--List all products sold in Los Angeles in February and include how many of each were sold.--Result: USB-C Charging and 2,161 total units sold in February.--
+SELECT Product, SUM(Quantity), location
+FROM BIT_DB.FebSales
+WHERE location LIKE '%Los_Angeles%';
+
+
