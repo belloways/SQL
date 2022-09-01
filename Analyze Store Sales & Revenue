@@ -71,4 +71,9 @@ FROM BIT_DB.FebSales
 LEFT JOIN BIT_DB.customers customers
 ON customers.order_id = FebSales.orderID;
 
+--What was the average quantity of products purchased per total accounts in February?--Result: Average 1.06 products sold per account.--
+SELECT SUM(Quantity)/COUNT (acctnum)
+FROM BIT_DB.FebSales FebSales
+LEFT JOIN BIT_DB.customers
+ON FebSales.orderID = customers.order_id;
 
