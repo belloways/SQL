@@ -39,5 +39,12 @@ location
 FROM BIT_DB.FebSales
 GROUP BY Product;
 
---How many customers ordered more than 2 products at a time in Feb, and what was the AVD amount spent for those customers?
+--How many customers ordered more than 2 products at a time in Feb, and what was the AVD amount spent for those customers?--Result: 890 customers ordered more than 2 products in February and spent $4.17 on average.--
+
+SELECT COUNT (customers.acctnum) as Total_Account_Numbers,
+AVG (Quantity*price) AS Average_Spent
+FROM BIT_DB.FebSales FebSales
+LEFT JOIN BIT_DB.customers customers
+ON FebSales.orderid = customers.order_id
+WHERE FebSales.Quantity>2;
 
