@@ -1,0 +1,73 @@
+--I downloaded a pre-existing database named 'chinook', which represents a digital media store and includes tables for artists, albums, media tracks, invoices, and customers.--
+--I analyzed the data using multiple SQL queries below.--
+
+--Show customers' full name, ID, and country who are not in the US.--
+SELECT FirstName, LastName, CustomerId, Country
+FROM chinook.customers
+WHERE Country != 'USA';
+
+--Show only customers from Brazil.--
+SELECT FirstName, LastName, CustomerId, Country
+FROM chinook.customers
+WHERE Country = 'Brazil';
+
+--Find invoices of customers from Brazil.--
+SELECT FirstName, LastName, InvoiceId, InvoiceDate, BillingCountry
+FROM chinook.invoices invoices
+JOIN chinook.customers customers
+ON invoices.CustomerId = customers.customerId
+WHERE invoices.BillingCountry = 'Brazil';
+
+--Show employees who are sales agents.--
+SELECT EmployeeId, FirstName, LastName, Title
+FROM chinook.employees
+WHERE title = 'Sales Support Agent';
+
+--Provide a unique/distinct list of billing countries.--
+SELECT DISTINCT (BillingCountry)
+FROM chinook.invoices;
+
+--Provide invoices associated with each sales agent.--(I joined 3 tables via a junction table)--
+SELECT invoices.invoiceid, employees.FirstName, employees.LastName, employees.title
+FROM chinook.invoices invoices
+JOIN chinook.customers customers
+ON invoices.customerid = customers.customerid
+JOIN chinook.employees employees
+ON customers.SupportRepId = employees.EmployeeId
+WHERE employees.title = 'Sales Support Agent';
+
+-- Show Invoice Total, Customer Name, Country, and Sales Agent name for all invoices and customers.--
+SELECT invoices.invoiceid, employees.FirstName, employees.LastName, employees.title
+FROM chinook.invoices invoices
+JOIN chinook.customers customers
+ON invoices.customerid = customers.customerid
+JOIN chinook.employees employees
+ON customers.SupportRepId = employees.EmployeeId
+WHERE employees.title = 'Sales Support Agent';
+
+--How many invocies were there in 2009?--
+SELECT COUNT(*)
+FROM chinook.invoices
+WHERE invoicedate BETWEEN '2009-01-01' AND '2009-12-31';
+
+--What are the total sales for 2009?--
+SELECT SUM(total)
+FROM chinook.invoices
+WHERE invoicedate BETWEEN '2009-01-01' AND '2009-12-31';
+
+--Provide purchased track name with each invoice line item.--
+SELECT invoices.invoiceid, invoices.invoicelineid, tracks.name
+FROM chinook.invoice_items invoices
+JOIN chinook.tracks tracks
+ON invoices.trackid = tracks.trackid;
+
+-- Show all tracks, include Album name, media type, and genre (4 tables)--
+SELECT tracks.name, albums.title, media.name, genres.name
+FROM chinook.tracks tracks
+JOIN chinook.albums albums
+ON tracks.albumid = albums.albumid
+JOIN chinook.genres genres
+ON tracks.genreid = genres.genreid
+JOIN chinook.media_types media
+ON tracks.mediatypeid = media.mediatypeid;
+
