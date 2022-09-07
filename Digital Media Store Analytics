@@ -1,5 +1,5 @@
 --I downloaded a pre-existing database named 'chinook', which represents a digital media store and includes tables for artists, albums, media tracks, invoices, and customers.--
---I analyzed the data using multiple SQL queries below.--
+--I analyzed the data using multiple relational SQL queries below.--
 
 --Show customers' full name, ID, and country who are not in the US.--
 SELECT FirstName, LastName, CustomerId, Country
