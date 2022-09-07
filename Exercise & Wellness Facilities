@@ -1,0 +1,75 @@
+--Downloaded a database containing data regarding exercise and wellness facilities, their members, and bookings.--
+
+--Extract list of facilities names and cost to members.--
+SELECT name, membercost
+FROM cd.facilties
+
+--Product list of facilities that charge fee to members.--
+SELECT * FROM cd.facilities
+WHERE membercost>0
+
+--Produce list of facilities that charge 1/50th of the monthly maintenance cost.--
+SELECT facid, name, membercost, monthlymaintenance
+FROM cd.facilities
+WHERE membercost>0
+AND membercost <(monthlymaintenance/50)
+
+--Product list of all facilities with word 'Tennis' in name.--
+SELECT * FROM cd.facilities
+WHERE ILIKE '%Tennis%'
+
+--Extract details of facilities with ID 1 and 5.--
+SELECT * FROM cd.facilities
+WHERE facid IN (1,5)
+
+--Produce list of members who joined after start of September 2012.--
+SELECT memid, surname, firstname, joindate
+FROM cd.members
+WHERE joindate>= '2012-09-01'
+
+--Produce an ordered list of first 10 surnames in members table (no duplicates).--
+SELECT DISTINCT (surname)
+FROM cd.members
+ORDER BY surname
+LIMIT 10
+
+--Obtain signup date of last member to join.--
+SELECT MAX(joindate)
+AS latest_signup
+FROM cd.members
+
+--Produce list of total number of slots booked per facility in month of September 2012.--
+SELECT facid, SUM(slots) AS total_slots
+FROM cd.bookings
+WHERE starttime >= '2012-09-01'
+AND starttime <= '2012-10-01'
+GROUP BY facid
+ORDER BY SUM(slots)
+
+--Produce list of facilities with more than 1000 slots booked.--
+SELECT facid, sum(slots) AS total_slots
+FROM cd.bookings
+GROUP BY facid
+HAVING SUM(slots)>1000
+ORDER BY facid
+
+--Produce list of start times for bookings for tennis courts for the date '2012-09-21'.--
+SELECT cd.bookings.starttime AS start,
+cd.facilities.name AS name
+FROM cd.facilities
+JOIN cd.bookings
+ON cd.facilities.facid = cd.bookings.facid
+WHERE cd.facilities.facid IN (0,1)
+AND cd.bookings.starttime >= '2012-09-21'
+AND cd.bookings.starttime < '2012-09-22'
+ORDER BY cd.bookings.starttime
+
+--Produce list of start times for bookings by member named 'David Farrell'.--
+SELECT cd.bookings.starttime,
+cd.members.firstname,
+cd.members.surna,e
+FROM cd.bookings
+JOIN cd.members
+ON cd.members.memid = cd.bookings.memid
+WHERE cd.members.firstname = 'David'
+AND cd.members.surname = 'Farrell'
