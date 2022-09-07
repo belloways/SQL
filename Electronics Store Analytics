@@ -1,3 +1,5 @@
+--I downloaded an electronics store database to analyze store sales and revenue in January and February.--
+
 -- How many orders were placed in January?--Result: 9,723 orders placed in January---
 
 SELECT COUNT (*)
